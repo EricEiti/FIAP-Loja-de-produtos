@@ -2,8 +2,6 @@ package br.com.fiap.store.bean;
 
 import java.util.Calendar;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
-
 public class Produto {
 
 	private int codigo;

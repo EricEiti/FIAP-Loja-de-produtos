@@ -1,3 +1,5 @@
+package br.com.fiap.store.dao.impl;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +23,7 @@ public class OracleProdutoDAO implements ProdutoDAO {
 
 		try {
 			conexao = ConnectionManager.getInstance().getConnection();
-			String sql = "INSERT INTO TB_PRODUTO (CD_PRODUTO, NM_PRODUTO, QT_PRODUTO, VL_PRODUTO, DT_FABRICACAO) VALUES (SQ_TB_PRODUTO.NEXTVAL, ?, ?, ?, ?)";
+			String sql = "INSERT INTO TB_PRODUTO (CD_PRODUTO, NM_PRODUTO, QT_PRODUTO, VL_PRODUTO, DT_FABRICACAO) VALUES (CD_PRODUTO, ?, ?, ?, ?)";
 			stmt = conexao.prepareStatement(sql);
 			stmt.setString(1, produto.getNome());
 			stmt.setInt(2, produto.getQuantidade());

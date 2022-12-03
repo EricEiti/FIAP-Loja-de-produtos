@@ -2,18 +2,19 @@ package br.com.fiap.store.dao;
 
 import java.util.List;
 
+import br.com.fiap.store.bean.Produto;
 import br.com.fiap.store.exception.DBException;
 
 public interface ProdutoDAO {
 
-	void cadastrar(ProdutoDAO produto) throws DBException;
+	void cadastrar(Produto produto) throws DBException;
 
-	void atualizar(ProdutoDAO produto) throws DBException;
+	void atualizar(Produto produto) throws DBException;
 
 	void remover(int codigo) throws DBException;
 
-	ProdutoDAO buscar(int id);
+	Produto buscar(int id);
 
-	List<ProdutoDAO> listar();
+	List<Produto> listar();
 
 }

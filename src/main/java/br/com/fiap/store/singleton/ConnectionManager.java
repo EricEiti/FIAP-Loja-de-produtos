@@ -21,9 +21,10 @@ public class ConnectionManager {
 		Connection connection = null;
 		try {
 
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			connection = DriverManager.getConnection("jdbc:mysql:///fiapstore","root", "root");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fiapstore","root", "root");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
