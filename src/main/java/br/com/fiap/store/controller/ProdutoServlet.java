@@ -20,13 +20,42 @@ import br.com.fiap.store.factory.DAOFactory;
 public class ProdutoServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private ProdutoDAO dao;
-	
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		dao = DAOFactory.getProdutoDAO();
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String acao = request.getParameter("acao");
+		
+		switch (acao) {
+		case "listar":
+			listar(request, response);
+			break;
+		case "abrir-form-edicao":
+			abrirFormEdicao(request, response);
+			break;
+		}
+		
+	}
+
+	private void abrirFormEdicao(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("codigo"));
+		Produto produto = dao.buscar(id);
+		request.setAttribute("produto", produto);
+		request.getRequestDispatcher("edicao-produto.jsp").forward(request, response);
+	}
+
+	private void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Produto> lista = dao.listar();
+		request.setAttribute("produtos", lista);
+		request.getRequestDispatcher("lista-produto.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -41,9 +70,24 @@ public class ProdutoServlet extends HttpServlet {
 		case "editar":
 			editar(request,response);
 			break;
+		case "excluir":
+			excluir(request, response);
+			break;
 		}
 	}
 
+	private void excluir(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int codigo = Integer.parseInt(request.getParameter("codigo"));
+		try {
+			dao.remover(codigo);
+			request.setAttribute("msg", "Produto removido!");
+		} catch (DBException e) {
+			e.printStackTrace();
+			request.setAttribute("erro", "Erro ao atualizar");
+		}
+		listar(request,response);
+	}
 
 	private void editar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -91,28 +135,6 @@ public class ProdutoServlet extends HttpServlet {
 			request.setAttribute("erro", "Por favor, valide os dados");
 		}
 		request.getRequestDispatcher("cadastro-produto.jsp").forward(request, response);
-	}
-	
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String acao = request.getParameter("acao");
-		
-		switch (acao) {
-		case "listar":
-			listar(request, response);
-			break;
-		case "abrir-form-edicao":
-			int id = Integer.parseInt(request.getParameter("codigo"));
-			Produto produto = dao.buscar(id);
-			request.setAttribute("produto", produto);
-			request.getRequestDispatcher("edicao-produto.jsp").forward(request, response);
-		}	
-	}
-
-	private void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Produto> lista = dao.listar();
-		request.setAttribute("produtos", lista);
-		request.getRequestDispatcher("lista-produto.jsp").forward(request, response);
 	}
 
 }
