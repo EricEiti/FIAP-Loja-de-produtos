@@ -3,6 +3,7 @@ package br.com.fiap.store.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,6 +51,13 @@ public class ProdutoServlet extends HttpServlet {
 			request.setAttribute("erro","Por favor, valide os dados");
 		}
 		request.getRequestDispatcher("cadastro-produto.jsp").forward(request, response);
+	}
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			List<Produto> lista = dao.listar();
+			request.setAttribute("produtos", lista);
+			request.getRequestDispatcher("lista-produto.jsp").forward(request, response);	
 	}
 
 }
