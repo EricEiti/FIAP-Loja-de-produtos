@@ -5,15 +5,17 @@ import java.util.Calendar;
 public class Produto {
 
 	private int codigo;
-
+	
 	private String nome;
-
+	
 	private double valor;
-
+	
 	private Calendar dataFabricacao;
-
+	
 	private int quantidade;
-
+	
+	private Categoria categoria;
+	
 	public Produto() {
 		super();
 	}
@@ -67,4 +69,12 @@ public class Produto {
 		this.quantidade = quantidade;
 	}
 
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
 }
